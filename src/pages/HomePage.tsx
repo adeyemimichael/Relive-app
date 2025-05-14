@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
     {/* Right: Stacked Images */}
  <div className="flex flex-wrap justify-center items-start gap-8 mt-12">
   {/* First Image Card */}
-  <div className="relative w-[360px] h-[400px] rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900 translate-y-20 rotate-[20deg] transition-transform duration-500 hover:scale-105 hover:-translate-y-2 hover:rotate-1">
+  <div className="relative w-[360px] h-[400px] rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900 -translate-y-18 rotate-[20deg] transition-transform duration-500 hover:scale-105 hover:-translate-y-2 hover:rotate-1">
     <img 
       src={FamilyImage} 
       alt="Family Moment" 
@@ -76,7 +76,7 @@ const HomePage: React.FC = () => {
   </div>
 
   {/* Second Image Card */}
-  <div className="relative w-[360px] h-[400px] rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900  translate-y-20 -rotate-[30deg] transition-transform duration-500 hover:scale-105 hover:-translate-y-2 hover:-rotate-1">
+  <div className="relative w-[360px] h-[400px] rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900  -translate-y-18 -rotate-[30deg] transition-transform duration-500 hover:scale-105 hover:-translate-y-2 hover:-rotate-1">
     <img 
       src={SecondFamImage} 
       alt="Another Moment" 
