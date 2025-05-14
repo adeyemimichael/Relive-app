@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center space-x-2 mb-4">
               <BookOpen className="h-6 w-6 text-amber-500" />
               <span className="text-xl font-serif font-semibold text-slate-800 dark:text-white">
-                MemoMuse
+                ReLive
               </span>
             </div>
             <p className="text-slate-600 dark:text-slate-300 mb-4 max-w-md">
@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-slate-200 dark:border-slate-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            &copy; {new Date().getFullYear()} MemoMuse. All rights reserved.
+            &copy; {new Date().getFullYear()} Relive. All rights reserved.
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center mt-4 md:mt-0">
             Made with <Heart className="h-4 w-4 text-rose-500 mx-1" /> by Livingman-adeyemi
