@@ -260,10 +260,10 @@ const Profile: React.FC = () => {
                         <LogOut className="h-5 w-5 mr-3" />
                         <div>
                           <h4 className="font-medium">
-                            Log Out
+                            Go Back
                           </h4>
                           <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Sign out of your account
+                            Go back Home 
                           </p>
                         </div>
                       </div>
