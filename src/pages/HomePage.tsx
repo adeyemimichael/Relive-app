@@ -181,9 +181,9 @@ const ImageCard: React.FC<ImageCardProps> = ({ src, label, rotation }) => (
     className={`
       relative 
       w-full sm:w-[280px] md:w-[360px] 
-      h-56 sm:h-[320px] md:h-[400px] 
-      rounded-xl overflow-hidden shadow-2xl 
-      bg-white dark:bg-slate-900
+      h-56 sm:h-[320px] md:h-[400px] gap-8
+      rounded-xl overflow-hidden shadow-2xl -rotate-60
+      bg-white dark:bg-slate-900 translate-y-10
       transform transition-transform duration-500
       md:-translate-y-18 md:${rotation}
       hover:scale-105 
