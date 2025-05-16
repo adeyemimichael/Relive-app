@@ -69,3 +69,28 @@ html {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+
+.blur-background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  filter: blur(10px);
+}
+
+.dropdown{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: antiquewhite;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+.dropdown-button{
+  margin-top: 20px;
+}
