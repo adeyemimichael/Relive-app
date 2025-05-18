@@ -1,78 +1,112 @@
 import React, { useState, useRef } from 'react';
+import { useMemories } from '../../context/MemoryContext';
 
-type MediaType = 'image' | 'video';
-
-interface MediaItem {
-  id: string;
+interface SelectedMedia {
   url: string;
-  type: MediaType;
-  category: string;
+  type: 'image' | 'video';
+  memoryTitle: string;
 }
 
 const Gallery: React.FC = () => {
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const { memories, setMemories } = useMemories(); // <-- assuming setMemories is available to update memories
+  const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
   const [categoryInput, setCategoryInput] = useState('');
-  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const groupedMedia = mediaItems.reduce<Record<string, MediaItem[]>>((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = [];
-    acc[item.category].push(item);
-    return acc;
-  }, {});
+  /* -------------------------------------------------------------- */
+  /* Flatten memories into media items with reference to memory title */
+  /* -------------------------------------------------------------- */
+  const mediaItems = memories.flatMap((memory) =>
+    memory.images.map((url) => ({
+      url,
+      type: url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image',
+      memoryTitle: memory.title,
+    })),
+  );
 
+  /* -------------------------------------------------------------- */
+  /* Group media by memory title */
+  /* -------------------------------------------------------------- */
+  const groupedMedia = mediaItems.reduce<Record<string, SelectedMedia[]>>(
+    (acc, item) => {
+      (acc[item.memoryTitle] ??= []).push(item);
+      return acc;
+    },
+    {},
+  );
+
+  /* -------------------------------------------------------------- */
+  /* Upload handlers */
+  /* -------------------------------------------------------------- */
   const handleUploadClick = () => {
+    if (!categoryInput.trim()) {
+      alert('Please enter a category / memory title before uploading.');
+      return;
+    }
     fileInputRef.current?.click();
   };
 
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || !categoryInput.trim()) {
-      alert('Please enter a category and select files.');
+      alert('Please enter a category / memory title and select files.');
       return;
     }
 
-    const newItems: MediaItem[] = [];
+    // Create new image URLs
+    const newUrls = Array.from(files).map((file) => URL.createObjectURL(file));
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const url = URL.createObjectURL(file);
+    // Find if memory category already exists
+    const existingMemoryIndex = memories.findIndex((m) => m.title === categoryInput.trim());
 
-      let type: MediaType = 'image';
-      if (file.type.startsWith('video/')) type = 'video';
+    let updatedMemories;
 
-      newItems.push({
-        id: `${Date.now()}-${file.name}-${i}`,
-        url,
-        type,
-        category: categoryInput.trim(),
-      });
+    if (existingMemoryIndex >= 0) {
+      // Append to existing memory images
+      const updatedMemory = {
+        ...memories[existingMemoryIndex],
+        images: [...memories[existingMemoryIndex].images, ...newUrls],
+      };
+      updatedMemories = [
+        ...memories.slice(0, existingMemoryIndex),
+        updatedMemory,
+        ...memories.slice(existingMemoryIndex + 1),
+      ];
+    } else {
+      // Add new memory with title and images
+      updatedMemories = [
+        ...memories,
+        { title: categoryInput.trim(), images: newUrls },
+      ];
     }
 
-    setMediaItems((prev) => [...prev, ...newItems]);
+    setMemories(updatedMemories);
     setCategoryInput('');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  /* -------------------------------------------------------------- */
+  /* Render */
+  /* -------------------------------------------------------------- */
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-semibold mb-6">Media Gallery</h1>
+      <h1 className="text-3xl font-semibold mb-6 dark:text-white">Memory Gallery</h1>
 
       {/* Upload Section */}
       <div className="mb-8 flex flex-wrap items-center gap-4">
         <input
           type="text"
-          placeholder="Category / Event name"
+          placeholder="Category / Memory title"
           value={categoryInput}
           onChange={(e) => setCategoryInput(e.target.value)}
-          className="border rounded px-3 py-2 text-sm w-64"
+          className="border rounded px-3 py-2 text-sm w-64 dark:bg-slate-800 dark:border-slate-600 dark:text-white"
         />
 
         <button
           onClick={handleUploadClick}
           className="bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
         >
-          Upload Images/Videos
+          Upload Images / Videos
         </button>
 
         <input
@@ -85,31 +119,26 @@ const Gallery: React.FC = () => {
         />
       </div>
 
-      {/* Gallery Section */}
-      {Object.keys(groupedMedia).length === 0 && (
-        <p className="text-gray-500">No media uploaded yet.</p>
+      {memories.length === 0 && (
+        <p className="text-gray-600 dark:text-gray-400">No memories uploaded yet.</p>
       )}
 
-      {Object.entries(groupedMedia).map(([category, items]) => (
-        <div key={category} className="mb-12">
-          <h2 className="text-xl font-semibold mb-4 border-b pb-1">{category}</h2>
+      {Object.entries(groupedMedia).map(([memoryTitle, items]) => (
+        <div key={memoryTitle} className="mb-12">
+          <h2 className="text-xl font-semibold mb-4 border-b pb-1 dark:text-white">{memoryTitle}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {items.map(({ id, url, type }) => (
+            {items.map(({ url, type }, index) => (
               <div
-                key={id}
+                key={`${url}-${index}`}
                 className="relative rounded overflow-hidden shadow-md cursor-pointer"
-                onClick={() => setSelectedMedia({ id, url, type, category })}
+                onClick={() => setSelectedMedia({ url, type, memoryTitle })}
               >
                 {type === 'image' ? (
-                  <img
-                    src={url}
-                    alt={category}
-                    className="w-full h-48 object-cover rounded"
-                  />
+                  <img src={url} alt={memoryTitle} className="w-full h-48 object-cover rounded" />
                 ) : (
                   <video
                     src={url}
-                    className="w-full h-48 rounded bg-black"
+                    className="w-full h-48 rounded bg-black object-cover"
                     muted
                     playsInline
                     preload="metadata"
@@ -121,15 +150,15 @@ const Gallery: React.FC = () => {
         </div>
       ))}
 
-      {/* Modal */}
+      {/* Light-box Modal */}
       {selectedMedia && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-4"
+          className="fixed inset-0 bg-black/80 flex justify-center items-center z-50 p-4"
           onClick={() => setSelectedMedia(null)}
         >
           <div
             className="relative max-w-4xl max-h-full"
-            onClick={(e) => e.stopPropagation()} // prevent closing modal on media click
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-2 right-2 text-white text-3xl font-bold z-50 hover:text-rose-400"
@@ -142,7 +171,7 @@ const Gallery: React.FC = () => {
             {selectedMedia.type === 'image' ? (
               <img
                 src={selectedMedia.url}
-                alt={selectedMedia.category}
+                alt={selectedMedia.memoryTitle}
                 className="max-w-full max-h-[80vh] rounded"
               />
             ) : (

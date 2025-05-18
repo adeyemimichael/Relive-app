@@ -1,36 +1,32 @@
 // context/MemoryContext.tsx
-import React, {
+import {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useState,
+  useCallback,
   ReactNode,
 } from 'react';
+import Dexie, { Table } from 'dexie';
 import { Memory } from '../types';
 import { mockMemories } from '../data/mockData';
 
-/* -------------------------------------------------------------------------- */
-/*  Helpers                                                                    */
-/* -------------------------------------------------------------------------- */
+/* ───────────────────────────── Dexie setup ────────────────────────────── */
 
-const LS_KEY = 'memories_v1';
+class MemoriesDB extends Dexie {
+  memories!: Table<Memory, string>;
 
-function loadMemories(): Memory[] {
-  const raw = localStorage.getItem(LS_KEY);
-  if (raw) {
-    try {
-      return JSON.parse(raw) as Memory[];
-    } catch (_) {
-      console.warn('Failed to parse memories from localStorage');
-    }
+  constructor() {
+    super('MemoriesDB');
+    this.version(1).stores({
+      memories: 'id, createdAt', // primary key & index
+    });
   }
-  // fallback to mocks on first run
-  return mockMemories;
 }
 
-function persist(memories: Memory[]) {
-  localStorage.setItem(LS_KEY, JSON.stringify(memories));
-}
+const db = new MemoriesDB();
+
+/* ─────────────────────────── helper functions ─────────────────────────── */
 
 function toDisplayImages(images: (string | File)[]): string[] {
   return images.map((img) =>
@@ -38,78 +34,101 @@ function toDisplayImages(images: (string | File)[]): string[] {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Context                                                                    */
-/* -------------------------------------------------------------------------- */
+/* ─────────────────────────── context contract ─────────────────────────── */
 
 interface MemoryContextType {
   memories: Memory[];
   addMemory: (data: Omit<Memory, 'id' | 'createdAt'>) => void;
-  updateMemory: (id: string, updates: Partial<Memory>) => void;
+  updateMemory: (id: string, changes: Partial<Memory>) => void;
   deleteMemory: (id: string) => void;
   getMemoryById: (id: string) => Memory | undefined;
 }
 
 const MemoryContext = createContext<MemoryContextType | undefined>(undefined);
 
-/* -------------------------------------------------------------------------- */
+/* ─────────────────────────── provider component ───────────────────────── */
 
 export const MemoryProvider = ({ children }: { children: ReactNode }) => {
-  const [memories, setMemories] = useState<Memory[]>(() => loadMemories());
+  const [memories, setMemories] = useState<Memory[]>([]);
 
-  /* Persist to localStorage whenever memories change */
+  /* ----------- initial load (once) ----------- */
   useEffect(() => {
-    persist(memories);
-  }, [memories]);
+    (async () => {
+      const rows = await db.memories.toArray();
+      if (rows.length === 0) {
+        // seed with mock data on first run
+        await db.memories.bulkAdd(mockMemories);
+        setMemories(mockMemories);
+      } else {
+        setMemories(rows);
+      }
+    })();
+  }, []);
 
-  /* -------------------------- CRUD functions --------------------------- */
+  /* ----------- live query (keeps state in-sync) ----------- */
+  useEffect(() => {
+    const sub = Dexie.liveQuery(() => db.memories.toArray()).subscribe({
+      next: setMemories,
+      error: console.error,
+    });
+    return () => sub.unsubscribe();
+  }, []);
 
-  const addMemory = (data: Omit<Memory, 'id' | 'createdAt'>) => {
-    const newMemory: Memory = {
-      ...data,
-      images: toDisplayImages(data.images),
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
-    setMemories((prev) => [newMemory, ...prev]);
-  };
+  /* ------------------------- CRUD helpers ------------------------- */
 
-  const updateMemory = (id: string, updates: Partial<Memory>) => {
-    setMemories((prev) =>
-      prev.map((m) =>
-        m.id === id
-          ? {
-              ...m,
-              ...updates,
-              images: updates.images
-                ? toDisplayImages(updates.images)
-                : m.images,
-            }
-          : m,
-      ),
-    );
-  };
+  const addMemory = useCallback(
+    async (data: Omit<Memory, 'id' | 'createdAt'>) => {
+      const newMemory: Memory = {
+        ...data,
+        images: toDisplayImages(data.images),
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
+      };
+      await db.memories.add(newMemory);
+      // state will refresh automatically via liveQuery
+    },
+    [],
+  );
 
-  const deleteMemory = (id: string) => {
-    setMemories((prev) => prev.filter((m) => m.id !== id));
-  };
+  const updateMemory = useCallback(
+    async (id: string, changes: Partial<Memory>) => {
+      await db.memories.update(id, {
+        ...changes,
+        ...(changes.images && {
+          images: toDisplayImages(changes.images as any),
+        }),
+      });
+    },
+    [],
+  );
 
-  const getMemoryById = (id: string) => memories.find((m) => m.id === id);
+  const deleteMemory = useCallback(async (id: string) => {
+    await db.memories.delete(id);
+  }, []);
+
+  const getMemoryById = (id: string) =>
+    memories.find((m) => m.id === id);
 
   /* -------------------------------------------------------------------- */
 
+  const value: MemoryContextType = {
+    memories,
+    addMemory,
+    updateMemory,
+    deleteMemory,
+    getMemoryById,
+  };
+
   return (
-    <MemoryContext.Provider
-      value={{ memories, addMemory, updateMemory, deleteMemory, getMemoryById }}
-    >
+    <MemoryContext.Provider value={value}>
       {children}
     </MemoryContext.Provider>
   );
 };
 
-/* -------------------------------------------------------------------------- */
+/* ─────────────────────────────── hook ──────────────────────────────── */
 
-export const useMemories = (): MemoryContextType => {
+export const useMemories = () => {
   const ctx = useContext(MemoryContext);
   if (!ctx) {
     throw new Error('useMemories must be used within a MemoryProvider');
