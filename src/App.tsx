@@ -9,6 +9,7 @@ import MemoryView from './pages/Memory/MemoryView';
 import MemoryCreate from './pages/Memory/MemoryCreate';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
+import Gallery from './pages/Memory/MemoryGallery';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/create" element={<MemoryCreate />} />
               <Route path="/edit/:id" element={<MemoryCreate />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path='/gallery' element={<Gallery/>}></Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

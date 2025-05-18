@@ -117,6 +117,7 @@ const Header: React.FC = () => {
             >
               Dashboard
             </Link>
+
             <Link
               to="/create"
               className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400"
@@ -124,6 +125,11 @@ const Header: React.FC = () => {
             >
               Create Memory
             </Link>
+            
+             <Link to="/gallery" className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400">
+                   Gallery
+                   </Link>
+    
             <Link
               to="/profile"
               className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400"
