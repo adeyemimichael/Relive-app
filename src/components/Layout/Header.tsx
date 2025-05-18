@@ -54,6 +54,12 @@ const Header: React.FC = () => {
             >
               Create Memory
             </Link>
+            <Link to="/gallery" className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400"
+             
+              
+              >
+                   Gallery
+            </Link>
             <Link 
               to="/profile" 
               className="font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400 transition-colors"
@@ -126,9 +132,12 @@ const Header: React.FC = () => {
               Create Memory
             </Link>
             
-             <Link to="/gallery" className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400">
+             <Link to="/gallery" className="block py-2 font-medium text-slate-600 hover:text-amber-500 dark:text-slate-200 dark:hover:text-amber-400"
+             
+              onClick={() => setIsMenuOpen(false)}
+              >
                    Gallery
-                   </Link>
+            </Link>
     
             <Link
               to="/profile"

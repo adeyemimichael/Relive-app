@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="font-serif text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white mb-2">
-            Your Summer Memories
+            Your Memories 
           </h1>
           <p className="text-slate-600 dark:text-slate-300">
             Revisit and reflect on your captured moments
