@@ -1,4 +1,4 @@
-// context/MemoryContext.tsx
+
 import {
   createContext,
   useContext,
@@ -75,6 +75,7 @@ export const MemoryProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /* ------------------------- CRUD helpers ------------------------- */
+
 
   const addMemory = useCallback(
     async (data: Omit<Memory, 'id' | 'createdAt'>) => {
