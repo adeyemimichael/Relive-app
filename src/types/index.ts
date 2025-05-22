@@ -1,26 +1,16 @@
-export type EmotionTag = 
-  | 'joy' 
-  | 'nostalgia' 
-  | 'tranquility' 
-  | 'excitement' 
-  | 'wonder' 
-  | 'gratitude'
-  | 'love'
-  | 'adventure';
-
 export interface Memory {
   id: string;
   title: string;
   content: string;
-  aiGenerated?: string;
   images: string[];
   location?: string;
   people?: string[];
-  emotionTags: EmotionTag[];
+  emotionTags: string[];
   createdAt: string;
   isPinned?: boolean;
-  likes: number; 
-  isLikedByUser: boolean; 
+  aiGenerated?: string;
+  likes: number;
+  isLikedByUser: boolean;
 }
 
 export interface User {
@@ -29,7 +19,8 @@ export interface User {
   avatar: string;
   preferences: {
     aiEnabled: boolean;
-    darkMode: boolean;
-    reminderFrequency?: 'daily' | 'weekly' | 'monthly';
-  }
+    reminderFrequency: 'daily' | 'weekly' | 'monthly';
+    lastReminder?: string; // ISO date of last reminder
+    snoozedUntil?: string; // ISO date until snoozed
+  };
 }

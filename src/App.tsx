@@ -10,6 +10,8 @@ import MemoryCreate from './pages/Memory/MemoryCreate';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Gallery from './pages/Memory/MemoryGallery';
+import ReminderModal from './components/ui/ReminderModal';
+
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
+          <ReminderModal />
+
         </Router>
       </MemoryProvider>
     </ThemeProvider>

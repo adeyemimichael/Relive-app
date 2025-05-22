@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { useMemories } from '../../context/MemoryContext';
+import { Memory } from '../../types';
 
 interface SelectedMedia {
   url: string;
@@ -8,22 +9,42 @@ interface SelectedMedia {
 }
 
 const Gallery: React.FC = () => {
-  const { memories, setMemories } = useMemories();
+  const { memories, addMemory } = useMemories();
   const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
   const [categoryInput, setCategoryInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
- 
-  const mediaItems = memories.flatMap((memory) =>
-    memory.images.map((url) => ({
-      url,
-      type: url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image',
-      memoryTitle: memory.title,
-    })),
-  );
+  // Convert images to displayable URLs and determine type
+  const mediaItems = useMemo(() => {
+    const items: SelectedMedia[] = [];
+    const blobUrls: string[] = []; // Track blob URLs for cleanup
 
+    memories.forEach((memory) => {
+      memory.images.forEach((img) => {
+        const url = typeof img !== 'string' ? URL.createObjectURL(img) : img;
+        const type =
+          typeof img !== 'string' && img.type.startsWith('video/')
+            ? 'video'
+            : 'image';
+        items.push({ url, type, memoryTitle: memory.title });
+        if (typeof img !== 'string') {
+          blobUrls.push(url); // Track blob URL
+        }
+      });
+    });
 
-  const groupedMedia = mediaItems.reduce<Record<string, SelectedMedia[]>>(
+    // Return items and blob URLs for cleanup
+    return { items, blobUrls };
+  }, [memories]);
+
+  // Cleanup blob URLs on unmount
+  useEffect(() => {
+    return () => {
+      mediaItems.blobUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [mediaItems.blobUrls]);
+
+  const groupedMedia = mediaItems.items.reduce<Record<string, SelectedMedia[]>>(
     (acc, item) => {
       (acc[item.memoryTitle] ??= []).push(item);
       return acc;
@@ -31,7 +52,6 @@ const Gallery: React.FC = () => {
     {},
   );
 
-  
   const handleUploadClick = () => {
     if (!categoryInput.trim()) {
       alert('Please enter a category / memory title before uploading.');
@@ -40,46 +60,28 @@ const Gallery: React.FC = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || !categoryInput.trim()) {
       alert('Please enter a category / memory title and select files.');
       return;
     }
 
-    // Create new image URLs
-    const newUrls = Array.from(files).map((file) => URL.createObjectURL(file));
+    // Use addMemory to persist to Dexie
+    const newMemory: Omit<Memory, 'id' | 'createdAt'> = {
+      title: categoryInput.trim(),
+      images: Array.from(files),
+      content: '', // Required by Memory type
+      emotionTags: [],
+      likes: 0,
+      isLikedByUser: false,
+    };
 
-    
-    const existingMemoryIndex = memories.findIndex((m) => m.title === categoryInput.trim());
-
-    let updatedMemories;
-
-    if (existingMemoryIndex >= 0) {
-     
-      const updatedMemory = {
-        ...memories[existingMemoryIndex],
-        images: [...memories[existingMemoryIndex].images, ...newUrls],
-      };
-      updatedMemories = [
-        ...memories.slice(0, existingMemoryIndex),
-        updatedMemory,
-        ...memories.slice(existingMemoryIndex + 1),
-      ];
-    } else {
-      
-      updatedMemories = [
-        ...memories,
-        { title: categoryInput.trim(), images: newUrls },
-      ];
-    }
-
-    setMemories(updatedMemories);
+    await addMemory(newMemory);
     setCategoryInput('');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  
   return (
     <div className="max-w-7xl mx-auto p-4">
       <h1 className="text-3xl font-semibold mb-6 dark:text-white">Memory Gallery</h1>
@@ -157,7 +159,7 @@ const Gallery: React.FC = () => {
               onClick={() => setSelectedMedia(null)}
               aria-label="Close modal"
             >
-              &times;
+              ×
             </button>
 
             {selectedMedia.type === 'image' ? (
