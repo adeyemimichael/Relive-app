@@ -36,7 +36,7 @@ const Header: React.FC = () => {
           >
             <BookOpen className="h-8 w-8 text-amber-500" />
             <span className="text-xl md:text-2xl font-serif font-semibold text-slate-800 dark:text-white">
-              ReLive
+              ReLivee
             </span>
           </Link>
 

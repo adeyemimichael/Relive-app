@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
                 className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-8 opacity-0 max-w-xl"
                 style={{ animation: 'fadeUp 0.8s 0.4s forwards' }}
               >
-                ReLive helps you capture, organize, and reflect on your adventures and fun moments with AI-assisted journaling, emotion tagging, and beautiful visualizations.
+                ReLivee helps you capture, organize, and reflect on your adventures and fun moments with AI-assisted journaling, emotion tagging, and beautiful visualizations.
               </p>
 
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 opacity-0" style={{ animation: 'fadeUp 0.8s 0.6s forwards' }}>
@@ -93,17 +93,17 @@ const HomePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <TestimonialCard
-              quote="MemoMuse has completely transformed how I document my summer. The AI insights help me see patterns in my experiences I never noticed before."
+              quote="ReLivee has completely transformed how I document my gallery, events and meetings. The AI insights help me see patterns in my experiences I never noticed before."
               author="Jessica T."
               image="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg"
             />
             <TestimonialCard
-              quote="I love how the emotion tagging helps me track my summer moods. It's like having a personal therapist and journal all in one beautiful app."
+              quote="I love how the emotion tagging helps me track my adventures i can share how i feel. It's like having a personal therapist and journal all in one beautiful app."
               author="Michael R."
               image="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg"
             />
             <TestimonialCard
-              quote="As someone who always struggled to keep a consistent journal, MemoMuse makes it easy and enjoyable. I've captured more memories this summer than ever before."
+              quote="As someone who always struggled to keep a consistent journal, ReLivee makes it easy and enjoyable. I've captured more memories this year than ever before."
               author="Alexa K."
               image="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg"
             />
@@ -116,10 +116,10 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="font-serif text-3xl md:text-4xl font-semibold text-white mb-6">
-              Start preserving your Memorable memories today
+              Start preserving and Reliving your Memorable memories today
             </h2>
             <p className="text-lg text-amber-100 mb-8 max-w-xl mx-auto">
-              Join thousands of people using MemoMuse to create meaningful journals of their adventures, events, meetings with friends and family.
+              Join thousands of people using ReLivee to create meaningful journals of their adventures, events, meetings with friends and family.
             </p>
             <Link to="/dashboard">
               <Button variant="secondary" size="lg" icon={<Heart className="h-5 w-5" />}>
