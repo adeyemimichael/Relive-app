@@ -133,7 +133,64 @@ Check images and attribution in the chatbot.
 
    ## **Project Structure**
 Directory structure:
-Directory structure: └── adeyemimichael-relive-app/ ├── Readme.md ├── eslint.config.js ├── index.html ├── package.json ├── postcss.config.js ├── tailwind.config.js ├── tsconfig.app.json ├── tsconfig.json ├── tsconfig.node.json ├── vite.config.ts └── src/ ├── App.tsx ├── index.css ├── main.tsx ├── vite-env.d.ts ├── assets/ ├── components/ │ ├── Chatbot.tsx │ ├── EmotionTag.tsx │ ├── MemoryCard.tsx │ ├── Layout/ │ │ ├── Footer.tsx │ │ ├── Header.tsx │ │ └── Layout.tsx │ └── ui/ │ ├── Button.tsx │ ├── Card.tsx │ ├── ReminderModal.tsx │ └── ShareModal.tsx ├── context/ │ ├── AuthContext.tsx │ ├── MemoryContext.tsx │ └── ThemeContext.tsx ├── data/ │ └── mockData.ts ├── hooks/ │ └── useIDBStore.ts ├── pages/ │ ├── Dashboard.tsx │ ├── HomePage.tsx │ ├── NotFound.tsx │ ├── Profile.tsx │ ├── SpaceDashboard.tsx │ └── Memory/ │ ├── AddUploadImages.tsx │ ├── MemoryCreate.tsx │ ├── MemoryGallery.tsx │ └── MemoryView.tsx ├── types/ │ └── index.ts └── utils/ ├── genai.ts └── indexedDB.ts
+## Project Structure
+
+```plaintext
+adeyemimichael-relive-app/
+├── Readme.md                   # Project documentation
+├── eslint.config.js            # ESLint configuration
+├── index.html                  # HTML entry point
+├── package.json                # Dependencies and scripts
+├── postcss.config.js           # PostCSS configuration
+├── tailwind.config.js          # Tailwind CSS configuration
+├── tsconfig.app.json           # TypeScript app config
+├── tsconfig.json               # TypeScript config
+├── tsconfig.node.json          # TypeScript Node config
+├── vite.config.ts              # Vite configuration
+├── vercel.json                 # Vercel routing config
+└── src/
+    ├── App.tsx                 # Main app with routing
+    ├── index.css               # Tailwind CSS styles
+    ├── main.tsx                # Entry point
+    ├── vite-env.d.ts           # Vite environment types
+    ├── assets/                 # Static assets (images, etc.)
+    ├── components/             # Reusable components
+    │   ├── Chatbot.tsx         # AI chatbot with Gemini and Unsplash
+    │   ├── EmotionTag.tsx      # Emotion tag component
+    │   ├── MemoryCard.tsx      # Memory card component
+    │   ├── Layout/             # Layout components
+    │   │   ├── Footer.tsx      # Footer component
+    │   │   ├── Header.tsx      # Header component
+    │   │   └── Layout.tsx      # Main layout wrapper
+    │   └── ui/                 # UI components
+    │       ├── Button.tsx      # Reusable button
+    │       ├── Card.tsx        # Reusable card
+    │       ├── ReminderModal.tsx # Reminder modal
+    │       └── ShareModal.tsx  # Share modal
+    ├── context/                # React contexts
+    │   ├── AuthContext.tsx     # Authentication context
+    │   ├── MemoryContext.tsx   # Memory management context
+    │   └── ThemeContext.tsx    # Theme (dark/light mode) context
+    ├── data/                   # Mock data
+    │   └── mockData.ts         # Mock memory data
+    ├── hooks/                  # Custom hooks
+    │   └── useIDBStore.ts      # IndexedDB storage hook
+    ├── pages/                  # Page components
+    │   ├── Dashboard.tsx       # User dashboard
+    │   ├── HomePage.tsx        # Home page
+    │   ├── NotFound.tsx        # 404 page
+    │   ├── Profile.tsx         # User profile page
+    │   ├── SpaceDashboard.tsx  # Collaborative spaces dashboard
+    │   └── Memory/             # Memory-related pages
+    │       ├── AddUploadImages.tsx # Image upload component
+    │       ├── MemoryCreate.tsx    # Memory creation page
+    │       ├── MemoryGallery.tsx   # Memory gallery page
+    │       └── MemoryView.tsx      # Single memory view
+    ├── types/                  # TypeScript types
+    │   └── index.ts            # Memory, User, and other types
+    └── utils/                  # Utility functions
+        ├── genai.ts            # Gemini and Unsplash API integration
+        └── indexedDB.ts        # IndexedDB utilities
 
 
  ## **Video Demo**
