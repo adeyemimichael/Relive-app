@@ -183,7 +183,7 @@ adeyemimichael-relive-app/
 [Insert Video Demo Link Here]
 
 - [GitHub:](https://github.com/adeyemimichael)
-- [Discord:](Insert Twitter/X Handle)
+- [Discord:](https://discord.com/users/adeyemi123)
 
 ## **GitHub Repository**  
 [GitHub Repo](https://github.com/adeyemimichael/Relive-app)  
