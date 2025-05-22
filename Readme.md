@@ -83,7 +83,7 @@ Obtaining API Keys
 - Sign up and create a new application (name: "ReLivee Travel Buddy").
 - Find the Access Key under "Keys."
 - Copy the key and add it as VITE_UNSPLASH_API_KEY.
-- Restrict to your domain (e.g., http://localhost:5173) in the Unsplash dashboard.
+
 
 
 
@@ -101,15 +101,6 @@ npm run dev
 ```
 
 This launches Vite’s dev server, typically at http://localhost:5173.
-
-## ** Open the App:**
-
-- Open your browser and navigate to http://localhost:5173.
-   Explore the app:
-- /gallery: View and add memories.
-- /spaces: Create collaborative spaces.
-- /stories: Generate AI stories.
-Chatbot (bottom-right Bot icon): Interact with the AI.
 
 ## **Test the Chatbot:**
 
@@ -191,8 +182,8 @@ adeyemimichael-relive-app/
  ## **Video Demo**
 [Insert Video Demo Link Here]
 
-GitHub: [(https://github.com/adeyemimichael)]
-Twitter/X: [Insert Twitter/X Handle]
+- [GitHub:](https://github.com/adeyemimichael)
+- [Discord:](Insert Twitter/X Handle)
 
 ## **GitHub Repository**  
 [GitHub Repo](https://github.com/adeyemimichael/Relive-app)  
