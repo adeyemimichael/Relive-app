@@ -11,7 +11,7 @@ import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Gallery from './pages/Memory/MemoryGallery';
 import ReminderModal from './components/ui/ReminderModal';
-
+import Chatbot from './components/Chatbot';
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
             </Routes>
           </Layout>
           <ReminderModal />
-
+          <Chatbot />
         </Router>
       </MemoryProvider>
     </ThemeProvider>

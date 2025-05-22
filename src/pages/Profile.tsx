@@ -305,48 +305,8 @@ const Profile: React.FC = () => {
                 </div>
               </div>
 
-              {/* Account Settings */}
-              <div>
-                <h3 className="font-medium text-slate-800 dark:text-slate-200 mb-4">
-                  Account Settings
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-700">
-                    <button className="w-full flex items-center justify-between text-left">
-                      <div className="flex items-center">
-                        <User className="h-5 w-5 text-slate-500 mr-3" />
-                        <div>
-                          <h4 className="font-medium text-slate-900 dark:text-white">
-                            Account Information
-                          </h4>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Update your email and password
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-amber-500">Edit</span>
-                    </button>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-700">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center justify-between text-left text-rose-500 dark:text-rose-400"
-                    >
-                      <div className="flex items-center">
-                        <LogOut className="h-5 w-5 mr-3" />
-                        <div>
-                          <h4 className="font-medium">Log Out</h4>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Sign out of your account
-                          </p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              
+              
             </div>
           </div>
 
