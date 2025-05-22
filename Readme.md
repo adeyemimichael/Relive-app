@@ -15,13 +15,13 @@ Welcome to ReLivee, a memory gallery app developed to help users organise their 
 
 ## **Features**
 
-Memory Gallery: Store and view travel memories with titles, locations, images, and emotion tags, persisted using Dexie.js.
-AI Chatbot: Powered by Google Gemini, it offers personalized travel recommendations based on user memories and queries, addressing users by name for a friendly experience.
-Dynamic Images: Integrates Unsplash API to display high-quality images for recommended destinations, with proper photographer attribution.
+- Memory Gallery: Store and view travel memories with titles, locations, images, and emotion tags, persisted using Dexie.js.
+- AI Chatbot: Powered by Google Gemini, it offers personalized travel recommendations based on user memories and queries, addressing users by name for a friendly experience.
+- Dynamic Images: Integrates Unsplash API to display high-quality images for recommended destinations, with proper photographer attribution.
 Collaborative Memory Spaces: Create and share memory spaces with others.
-Responsive Design: Tailwind CSS ensures a sleek, dark-mode-ready UI across devices.
-Profile information and management
-Robust Error Handling: Fallback mock responses ensure the chatbot works even if APIs fail.
+- Responsive Design: Tailwind CSS ensures a sleek, dark-mode-ready UI across devices.
+- Profile information and management
+- Robust Error Handling: Fallback mock responses ensure the chatbot works even if APIs fail.
 
 **Prerequisites**
 Before running ReLivee, ensure you have:
