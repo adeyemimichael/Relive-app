@@ -4,15 +4,14 @@ Welcome to ReLivee, a memory gallery app developed to help users organise their 
 
 ## **Table of Contents**
 
-Features
-Prerequisites
-Installation
-Environment Setup
-Running the App Locally
-Project Structure
-Video Demo
-Social Media
-License
+- Features
+- Prerequisites
+- Installation
+- Environment Setup
+- Running the App Locally
+- Project Structure
+- Video Demo
+- License
 
 ## **Features**
 
@@ -27,12 +26,12 @@ Robust Error Handling: Fallback mock responses ensure the chatbot works even if 
 **Prerequisites**
 Before running ReLivee, ensure you have:
 
-Node.js: Version 18.x or higher (LTS recommended).
-npm: Version 9.x or higher (comes with Node.js).
-Git: For cloning the repository.
-API Keys:
-Google Gemini API key from Google Cloud Console.
-Unsplash API key from Unsplash Developers.
+- Node.js: Version 18.x or higher (LTS recommended).
+- npm: Version 9.x or higher (comes with Node.js).
+- Git: For cloning the repository.
+- API Keys:
+- Google Gemini API key from Google Cloud Console.
+- Unsplash API key from Unsplash Developers.
 
 
 A modern browser (e.g., Chrome, Firefox).
@@ -45,52 +44,54 @@ git clone https://github.com/adeyemimichael/Relive-app.git
 cd Relive-app
 ```
 
-**Install Dependencies:**
+## **Install Dependencies:**
 ```bash
 npm install
 ```
 
 This installs required packages, including:
-react, react-dom, react-router-dom
-@google/generative-ai (Gemini API)
-lucide-react (icons)
-dexie (IndexedDB)
-tailwindcss, vite, typescript
+- react, react-dom, react-router-dom
+- @google/generative-ai (Gemini API)
+- lucide-react (icons)
+- dexie (IndexedDB)
+- tailwindcss, vite, typescript
 
 
 
-**Environment Setup**
-Create a .env file in the project root and add the following API keys:
+## **Environment Setup**
+- Create a .env file in the project root and add the following API keys:
+```bash
 VITE_GENAI_API_KEY=your-new-gemini-api-key
 VITE_UNSPLASH_API_KEY=your-unsplash-access-key
+```
 
 Obtaining API Keys
 
-**Google Gemini API Key:**
+## **Google Gemini API Key:**
 
-Go to Google Cloud Console.
-Create a project or select an existing one.
-Enable the Gemini API.
-Navigate to APIs & Services > Credentials > Create Credentials > API Key.
-Copy the key and add it as VITE_GENAI_API_KEY.
-Restrict the key to the Gemini API for security.
-
-
-**Unsplash API Key:**
-
-Visit Unsplash Developers.
-Sign up and create a new application (name: "ReLivee Travel Buddy").
-Find the Access Key under "Keys."
-Copy the key and add it as VITE_UNSPLASH_API_KEY.
-Restrict to your domain (e.g., http://localhost:5173) in the Unsplash dashboard.
+- Go to Google Cloud Console.
+- Create a project or select an existing one.
+- Enable the Gemini API.
+- Navigate to APIs & Services > Credentials > Create Credentials > API Key.
+- Copy the key and add it as VITE_GENAI_API_KEY.
+- Restrict the key to the Gemini API for security.
 
 
+## **Unsplash API Key:**
 
-**Security Notes:**
+- Visit Unsplash Developers.
+- Sign up and create a new application (name: "ReLivee Travel Buddy").
+- Find the Access Key under "Keys."
+- Copy the key and add it as VITE_UNSPLASH_API_KEY.
+- Restrict to your domain (e.g., http://localhost:5173) in the Unsplash dashboard.
 
-Ensure .env is listed in .gitignore (already included in the repository).
-Do not commit API keys to version control.
-Unsplash’s demo mode limits to 50 requests/hour; request production access for higher limits if needed.
+
+
+## **Security Notes:**
+
+- Ensure .env is listed in .gitignore (already included in the repository).
+- Do not commit API keys to version control.
+- Unsplash’s demo mode limits to 50 requests/hour; request production access for higher limits if needed.
 
 Running the App Locally
 
@@ -101,17 +102,14 @@ npm run dev
 
 This launches Vite’s dev server, typically at http://localhost:5173.
 
-### Open the App:
+## ** Open the App:**
 
-Open your browser and navigate to http://localhost:5173.
-Explore the app:
-/gallery: View and add memories.
-/spaces: Create collaborative spaces.
-/stories: Generate AI stories.
+- Open your browser and navigate to http://localhost:5173.
+   Explore the app:
+- /gallery: View and add memories.
+- /spaces: Create collaborative spaces.
+- /stories: Generate AI stories.
 Chatbot (bottom-right Bot icon): Interact with the AI.
-
-
-
 
 ## **Test the Chatbot:**
 
@@ -132,9 +130,6 @@ Check images and attribution in the chatbot.
 
 
    ## **Project Structure**
-Directory structure:
-## Project Structure
-
 ```plaintext
 adeyemimichael-relive-app/
 ├── Readme.md                   # Project documentation
