@@ -191,7 +191,7 @@ adeyemimichael-relive-app/
     └── utils/                  # Utility functions
         ├── genai.ts            # Gemini and Unsplash API integration
         └── indexedDB.ts        # IndexedDB utilities
-
+```
 
  ## **Video Demo**
 [Insert Video Demo Link Here]
