@@ -1,4 +1,3 @@
-
 import {
   createContext,
   useContext,
@@ -18,15 +17,15 @@ class MemoriesDB extends Dexie {
 
   constructor() {
     super('MemoriesDB');
-    this.version(1).stores({
-      memories: 'id, createdAt', // primary key & index
+    this.version(2).stores({
+      memories: 'id, createdAt, likes',
     });
   }
 }
 
 const db = new MemoriesDB();
 
-/* ─────────────────────────── helper functions ─────────────────────────── */
+
 
 function toDisplayImages(images: (string | File)[]): string[] {
   return images.map((img) =>
@@ -34,7 +33,7 @@ function toDisplayImages(images: (string | File)[]): string[] {
   );
 }
 
-/* ─────────────────────────── context contract ─────────────────────────── */
+
 
 interface MemoryContextType {
   memories: Memory[];
@@ -42,6 +41,7 @@ interface MemoryContextType {
   updateMemory: (id: string, changes: Partial<Memory>) => void;
   deleteMemory: (id: string) => void;
   getMemoryById: (id: string) => Memory | undefined;
+  toggleLike: (id: string) => void;
 }
 
 const MemoryContext = createContext<MemoryContextType | undefined>(undefined);
@@ -51,31 +51,50 @@ const MemoryContext = createContext<MemoryContextType | undefined>(undefined);
 export const MemoryProvider = ({ children }: { children: ReactNode }) => {
   const [memories, setMemories] = useState<Memory[]>([]);
 
-  /* ----------- initial load (once) ----------- */
+
   useEffect(() => {
     (async () => {
       const rows = await db.memories.toArray();
       if (rows.length === 0) {
-        // seed with mock data on first run
-        await db.memories.bulkAdd(mockMemories);
-        setMemories(mockMemories);
+        
+        const seededMemories = mockMemories.map(memory => ({
+          ...memory,
+          likes: memory.likes ?? 0,
+          isLikedByUser: memory.isLikedByUser ?? false,
+        }));
+        await db.memories.bulkAdd(seededMemories);
+        setMemories(seededMemories);
       } else {
-        setMemories(rows);
+       
+        const updatedRows = rows.map(memory => ({
+          ...memory,
+          likes: memory.likes ?? 0,
+          isLikedByUser: memory.isLikedByUser ?? false,
+        }));
+        await db.memories.bulkPut(updatedRows);
+        setMemories(updatedRows);
       }
     })();
   }, []);
 
-  /* ----------- live query (keeps state in-sync) ----------- */
+ 
   useEffect(() => {
     const sub = Dexie.liveQuery(() => db.memories.toArray()).subscribe({
-      next: setMemories,
+      next: (rows) => {
+        
+        const updatedRows = rows.map(memory => ({
+          ...memory,
+          likes: memory.likes ?? 0,
+          isLikedByUser: memory.isLikedByUser ?? false,
+        }));
+        setMemories(updatedRows);
+      },
       error: console.error,
     });
     return () => sub.unsubscribe();
   }, []);
 
-  /* ------------------------- CRUD helpers ------------------------- */
-
+ 
 
   const addMemory = useCallback(
     async (data: Omit<Memory, 'id' | 'createdAt'>) => {
@@ -84,9 +103,11 @@ export const MemoryProvider = ({ children }: { children: ReactNode }) => {
         images: toDisplayImages(data.images),
         id: Date.now().toString(),
         createdAt: new Date().toISOString(),
+        likes: 0,
+        isLikedByUser: false,
       };
       await db.memories.add(newMemory);
-      // state will refresh automatically via liveQuery
+    
     },
     [],
   );
@@ -110,14 +131,28 @@ export const MemoryProvider = ({ children }: { children: ReactNode }) => {
   const getMemoryById = (id: string) =>
     memories.find((m) => m.id === id);
 
-  /* -------------------------------------------------------------------- */
+  const toggleLike = useCallback(async (id: string) => {
+    const memory = await db.memories.get(id);
+    if (!memory) return;
 
+    const isLiked = !memory.isLikedByUser;
+    const changes: Partial<Memory> = {
+      likes: isLiked ? (memory.likes ?? 0) + 1 : (memory.likes ?? 0) - 1,
+      isLikedByUser: isLiked,
+    };
+
+    await db.memories.update(id, changes);
+    
+  }, []);
+
+ 
   const value: MemoryContextType = {
     memories,
     addMemory,
     updateMemory,
     deleteMemory,
     getMemoryById,
+    toggleLike,
   };
 
   return (
@@ -127,7 +162,6 @@ export const MemoryProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-/* ─────────────────────────────── hook ──────────────────────────────── */
 
 export const useMemories = () => {
   const ctx = useContext(MemoryContext);

@@ -19,6 +19,8 @@ export interface Memory {
   emotionTags: EmotionTag[];
   createdAt: string;
   isPinned?: boolean;
+  likes: number; 
+  isLikedByUser: boolean; 
 }
 
 export interface User {

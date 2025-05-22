@@ -8,14 +8,12 @@ interface SelectedMedia {
 }
 
 const Gallery: React.FC = () => {
-  const { memories, setMemories } = useMemories(); // <-- assuming setMemories is available to update memories
+  const { memories, setMemories } = useMemories();
   const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
   const [categoryInput, setCategoryInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  /* -------------------------------------------------------------- */
-  /* Flatten memories into media items with reference to memory title */
-  /* -------------------------------------------------------------- */
+ 
   const mediaItems = memories.flatMap((memory) =>
     memory.images.map((url) => ({
       url,
@@ -24,9 +22,7 @@ const Gallery: React.FC = () => {
     })),
   );
 
-  /* -------------------------------------------------------------- */
-  /* Group media by memory title */
-  /* -------------------------------------------------------------- */
+
   const groupedMedia = mediaItems.reduce<Record<string, SelectedMedia[]>>(
     (acc, item) => {
       (acc[item.memoryTitle] ??= []).push(item);
@@ -35,9 +31,7 @@ const Gallery: React.FC = () => {
     {},
   );
 
-  /* -------------------------------------------------------------- */
-  /* Upload handlers */
-  /* -------------------------------------------------------------- */
+  
   const handleUploadClick = () => {
     if (!categoryInput.trim()) {
       alert('Please enter a category / memory title before uploading.');
@@ -56,13 +50,13 @@ const Gallery: React.FC = () => {
     // Create new image URLs
     const newUrls = Array.from(files).map((file) => URL.createObjectURL(file));
 
-    // Find if memory category already exists
+    
     const existingMemoryIndex = memories.findIndex((m) => m.title === categoryInput.trim());
 
     let updatedMemories;
 
     if (existingMemoryIndex >= 0) {
-      // Append to existing memory images
+     
       const updatedMemory = {
         ...memories[existingMemoryIndex],
         images: [...memories[existingMemoryIndex].images, ...newUrls],
@@ -73,7 +67,7 @@ const Gallery: React.FC = () => {
         ...memories.slice(existingMemoryIndex + 1),
       ];
     } else {
-      // Add new memory with title and images
+      
       updatedMemories = [
         ...memories,
         { title: categoryInput.trim(), images: newUrls },
@@ -85,9 +79,7 @@ const Gallery: React.FC = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  /* -------------------------------------------------------------- */
-  /* Render */
-  /* -------------------------------------------------------------- */
+  
   return (
     <div className="max-w-7xl mx-auto p-4">
       <h1 className="text-3xl font-semibold mb-6 dark:text-white">Memory Gallery</h1>

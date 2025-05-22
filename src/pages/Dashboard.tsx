@@ -8,7 +8,8 @@ import {
 import { useMemories } from '../context/MemoryContext';
 import MemoryCard from '../components/MemoryCard';
 import Button from '../components/ui/Button';
-import { EmotionTag } from '../types';
+import ShareModal from '../components/ui/ShareModal';
+import { EmotionTag, Memory } from '../types';
 
 const Dashboard: React.FC = () => {
   const { memories, updateMemory } = useMemories();
@@ -16,17 +17,19 @@ const Dashboard: React.FC = () => {
   const [filteredMemories, setFilteredMemories] = useState(memories);
   const [selectedEmotions, setSelectedEmotions] = useState<EmotionTag[]>([]);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [selectedMemory, setSelectedMemory] = useState<Memory | null>(null);
 
   const allEmotions: EmotionTag[] = [
     'joy', 'nostalgia', 'tranquility', 'excitement', 
     'wonder', 'gratitude', 'love', 'adventure'
   ];
 
-  // Filter memories based on search term and selected emotions
+
   useEffect(() => {
     let result = memories;
     
-    // Filter by search term
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       result = result.filter(memory => 
@@ -37,7 +40,6 @@ const Dashboard: React.FC = () => {
       );
     }
     
-    // Filter by selected emotions
     if (selectedEmotions.length > 0) {
       result = result.filter(memory => 
         selectedEmotions.every(emotion => memory.emotionTags.includes(emotion))
@@ -69,6 +71,11 @@ const Dashboard: React.FC = () => {
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedEmotions([]);
+  };
+
+  const handleShare = (memory: Memory) => {
+    setSelectedMemory(memory);
+    setIsShareModalOpen(true);
   };
 
   return (
@@ -160,7 +167,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
       
-      {/* Pinned Memories */}
+      
       {filteredMemories.some(memory => memory.isPinned) && (
         <div className="mb-8">
           <h2 className="font-serif text-xl font-medium text-slate-800 dark:text-white mb-4 flex items-center">
@@ -172,7 +179,7 @@ const Dashboard: React.FC = () => {
               .filter(memory => memory.isPinned)
               .map(memory => (
                 <div key={memory.id} className="relative group">
-                  <MemoryCard memory={memory} />
+                  <MemoryCard memory={memory} onShare={handleShare} />
                   <button
                     onClick={() => togglePinMemory(memory.id, memory.isPinned)}
                     className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
@@ -227,7 +234,7 @@ const Dashboard: React.FC = () => {
               .filter(memory => !memory.isPinned)
               .map(memory => (
                 <div key={memory.id} className="relative group">
-                  <MemoryCard memory={memory} />
+                  <MemoryCard memory={memory} onShare={handleShare} />
                   <button
                     onClick={() => togglePinMemory(memory.id, memory.isPinned)}
                     className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
@@ -240,6 +247,16 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+
+    
+      {isShareModalOpen && selectedMemory && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          shareUrl={`${window.location.origin}/memory/${selectedMemory.id}`}
+          title={selectedMemory.title}
+        />
+      )}
     </div>
   );
 };

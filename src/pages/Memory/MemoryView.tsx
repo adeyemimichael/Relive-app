@@ -9,14 +9,16 @@ import { format } from 'date-fns';
 import { useMemories } from '../../context/MemoryContext';
 import Button from '../../components/ui/Button';
 import EmotionTag from '../../components/EmotionTag';
+import ShareModal from '../../components/ui/ShareModal';
 
 const MemoryView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getMemoryById, updateMemory, deleteMemory } = useMemories();
+  const { getMemoryById, updateMemory, deleteMemory, toggleLike } = useMemories();
   const memory = getMemoryById(id || '');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   
   if (!memory) {
     return (
@@ -43,7 +45,9 @@ const MemoryView: React.FC = () => {
     people,
     emotionTags,
     createdAt,
-    isPinned
+    isPinned,
+    likes, // Remove default
+    isLikedByUser, // Remove default
   } = memory;
 
   const formattedDate = format(new Date(createdAt), 'MMMM d, yyyy');
@@ -67,6 +71,14 @@ const MemoryView: React.FC = () => {
     setCurrentImageIndex(prev => 
       prev === images.length - 1 ? 0 : prev + 1
     );
+  };
+
+  const handleShare = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const handleLike = () => {
+    toggleLike(id || '');
   };
 
   return (
@@ -221,12 +233,24 @@ const MemoryView: React.FC = () => {
           
           {/* Action Buttons */}
           <div className="flex justify-between pt-4 border-t border-slate-200 dark:border-slate-700">
-            <button className="flex items-center text-slate-500 hover:text-rose-500 dark:text-slate-400 dark:hover:text-rose-400 transition-colors">
-              <Heart className="h-5 w-5 mr-2" />
-              <span>Like</span>
+            <button
+              onClick={handleLike}
+              className={`flex items-center transition-colors ${
+                isLikedByUser
+                  ? 'text-rose-500 dark:text-rose-400'
+                  : 'text-slate-500 hover:text-rose-500 dark:text-slate-400 dark:hover:text-rose-400'
+              }`}
+            >
+              <Heart
+                className={`h-5 w-5 mr-2 ${isLikedByUser ? 'fill-current' : ''}`}
+              />
+              <span>{likes}</span>
             </button>
             
-            <button className="flex items-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 transition-colors">
+            <button 
+              onClick={handleShare}
+              className="flex items-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 transition-colors"
+            >
               <Share2 className="h-5 w-5 mr-2" />
               <span>Share</span>
             </button>
@@ -261,6 +285,16 @@ const MemoryView: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+      
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          shareUrl={`${window.location.origin}/memory/${id}`}
+          title={title}
+        />
       )}
     </div>
   );

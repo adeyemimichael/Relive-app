@@ -13,22 +13,16 @@ import { useMemories } from '../../context/MemoryContext';
 import Button from '../../components/ui/Button';
 import { EmotionTag } from '../../types';
 
-/* -------------------------------------------------------------------------- */
-/*                                TYPES                                       */
-/* -------------------------------------------------------------------------- */
-
 interface FormData {
   title: string;
   content: string;
-  images: (File | string)[]; // can be a new File or existing URL
+  images: (File | string)[]; 
   location: string;
   people: string[];
   emotionTags: EmotionTag[];
 }
 
-/* -------------------------------------------------------------------------- */
-/*                          COMPONENT                                         */
-/* -------------------------------------------------------------------------- */
+
 
 const MemoryCreate: React.FC = () => {
   const navigate = useNavigate();
@@ -37,7 +31,6 @@ const MemoryCreate: React.FC = () => {
 
   const isEditMode = !!id;
 
-  /* ----------------------------- STATE ---------------------------------- */
 
   const initialFormState: FormData = {
     title: '',
@@ -64,7 +57,7 @@ const MemoryCreate: React.FC = () => {
     'adventure',
   ];
 
-  /* -------------------- LOAD MEMORY FOR EDIT --------------------------- */
+
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -87,7 +80,6 @@ const MemoryCreate: React.FC = () => {
     }
   }, [isEditMode, id, getMemoryById]);
 
-  /* ------------------ HANDLERS (generic) ------------------------------- */
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -96,7 +88,7 @@ const MemoryCreate: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /* ------------------ IMAGE HANDLERS ----------------------------------- */
+
 
   const handleImageChange = (index: number, file: File | null) => {
     setImageInputError(null);
@@ -149,7 +141,7 @@ const MemoryCreate: React.FC = () => {
     );
   };
 
-  /* ------------------ AI SUGGESTION ------------------------------------ */
+  
 
   const generateAISuggestion = () => {
     setAiSuggestionLoading(true);
@@ -167,7 +159,7 @@ const MemoryCreate: React.FC = () => {
     }, 1500);
   };
 
-  /* ------------------ VALIDATION --------------------------------------- */
+
 
   const validateForm = (): boolean => {
     if (!formData.title.trim()) {
@@ -194,18 +186,17 @@ const MemoryCreate: React.FC = () => {
     return true;
   };
 
-  /* ------------------ SUBMIT ------------------------------------------- */
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    // TODO: upload File objects and replace with URLs
-    // For now we pass through.
+   
     const cleanedData = {
       title: formData.title.trim(),
       content: formData.content.trim(),
-      images: formData.images.filter(Boolean), // File | string
+      images: formData.images.filter(Boolean), 
       location: formData.location.trim() || undefined,
       people:
         formData.people.filter((p) => p.trim() !== '') || undefined,
@@ -221,9 +212,7 @@ const MemoryCreate: React.FC = () => {
     navigate('/dashboard');
   };
 
-  /* ====================================================================== */
-  /* RENDER                                                                 */
-  /* ====================================================================== */
+ 
 
   return (
     <div className="max-w-3xl mx-auto">
