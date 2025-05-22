@@ -20,7 +20,7 @@ export interface User {
   preferences: {
     aiEnabled: boolean;
     reminderFrequency: 'daily' | 'weekly' | 'monthly';
-    lastReminder?: string; // ISO date of last reminder
-    snoozedUntil?: string; // ISO date until snoozed
+    lastReminder?: string; 
+    snoozedUntil?: string; 
   };
 }

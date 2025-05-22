@@ -1,5 +1,5 @@
 import React from 'react';
-import { EmotionTag as EmotionTagType } from '../types';
+import { EmotionTag as EmotionTagType } from '../types/index';
 
 interface EmotionTagProps {
   emotion: EmotionTagType;
