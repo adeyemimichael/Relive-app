@@ -133,60 +133,7 @@ Check images and attribution in the chatbot.
 
    ## **Project Structure**
 Directory structure:
-└── adeyemimichael-relive-app/
-    ├── Readme.md
-    ├── eslint.config.js
-    ├── index.html
-    ├── package.json
-    ├── postcss.config.js
-    ├── tailwind.config.js
-    ├── tsconfig.app.json
-    ├── tsconfig.json
-    ├── tsconfig.node.json
-    ├── vite.config.ts
-    └── src/
-        ├── App.tsx
-        ├── index.css
-        ├── main.tsx
-        ├── vite-env.d.ts
-        ├── assets/
-        ├── components/
-        │   ├── Chatbot.tsx
-        │   ├── EmotionTag.tsx
-        │   ├── MemoryCard.tsx
-        │   ├── Layout/
-        │   │   ├── Footer.tsx
-        │   │   ├── Header.tsx
-        │   │   └── Layout.tsx
-        │   └── ui/
-        │       ├── Button.tsx
-        │       ├── Card.tsx
-        │       ├── ReminderModal.tsx
-        │       └── ShareModal.tsx
-        ├── context/
-        │   ├── AuthContext.tsx
-        │   ├── MemoryContext.tsx
-        │   └── ThemeContext.tsx
-        ├── data/
-        │   └── mockData.ts
-        ├── hooks/
-        │   └── useIDBStore.ts
-        ├── pages/
-        │   ├── Dashboard.tsx
-        │   ├── HomePage.tsx
-        │   ├── NotFound.tsx
-        │   ├── Profile.tsx
-        │   ├── SpaceDashboard.tsx
-        │   └── Memory/
-        │       ├── AddUploadImages.tsx
-        │       ├── MemoryCreate.tsx
-        │       ├── MemoryGallery.tsx
-        │       └── MemoryView.tsx
-        ├── types/
-        │   └── index.ts
-        └── utils/
-            ├── genai.ts
-            └── indexedDB.ts
+Directory structure: └── adeyemimichael-relive-app/ ├── Readme.md ├── eslint.config.js ├── index.html ├── package.json ├── postcss.config.js ├── tailwind.config.js ├── tsconfig.app.json ├── tsconfig.json ├── tsconfig.node.json ├── vite.config.ts └── src/ ├── App.tsx ├── index.css ├── main.tsx ├── vite-env.d.ts ├── assets/ ├── components/ │ ├── Chatbot.tsx │ ├── EmotionTag.tsx │ ├── MemoryCard.tsx │ ├── Layout/ │ │ ├── Footer.tsx │ │ ├── Header.tsx │ │ └── Layout.tsx │ └── ui/ │ ├── Button.tsx │ ├── Card.tsx │ ├── ReminderModal.tsx │ └── ShareModal.tsx ├── context/ │ ├── AuthContext.tsx │ ├── MemoryContext.tsx │ └── ThemeContext.tsx ├── data/ │ └── mockData.ts ├── hooks/ │ └── useIDBStore.ts ├── pages/ │ ├── Dashboard.tsx │ ├── HomePage.tsx │ ├── NotFound.tsx │ ├── Profile.tsx │ ├── SpaceDashboard.tsx │ └── Memory/ │ ├── AddUploadImages.tsx │ ├── MemoryCreate.tsx │ ├── MemoryGallery.tsx │ └── MemoryView.tsx ├── types/ │ └── index.ts └── utils/ ├── genai.ts └── indexedDB.ts
 
 
  ## **Video Demo**
