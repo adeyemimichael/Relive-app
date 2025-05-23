@@ -118,10 +118,8 @@ Obtaining API Keys
 ## **Security Notes:**
 
 - Ensure .env is listed in .gitignore (already included in the repository).
-- Do not commit API keys to version control.
-- Unsplash’s demo mode limits to 50 requests/hour; request production access for higher limits if needed.
 
-Running the App Locally
+ ## Running the App Locally
 
 **Start the Development Server:**
 ``` bash
