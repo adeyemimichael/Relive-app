@@ -208,10 +208,10 @@ adeyemimichael-relive-app/
 ```
 
  ## **Video Demo**
-[Insert Video Demo Link Here]
+- [Video Demo](https://drive.google.com/file/d/1lOeKWI7QY_Gms0BCtP98sHpVLa0WlFhH/view?usp=sharing)
 
-- [GitHub:](https://github.com/adeyemimichael)
-- [Discord:](https://discord.com/users/adeyemi123)
+- [GitHub link](https://github.com/adeyemimichael)
+- [Discord handle](https://discord.com/users/adeyemi123)
 
 ## **GitHub Repository**  
 [GitHub Repo](https://github.com/adeyemimichael/Relive-app)  
