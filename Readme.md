@@ -219,4 +219,4 @@ adeyemimichael-relive-app/
 Feel free to fork the project, make improvements, and submit a pull request. 
 
 ## **License**  
-This project is licensed under MIT license and it is open for modification.
+This project is licensed under MIT license and it is open for modification. 
