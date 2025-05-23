@@ -46,9 +46,9 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, shareUrl, titl
           Share this memory
         </h2>
         <p className="text-slate-600 dark:text-slate-300 mb-4">
-          Copy the link below to share this memory with others:
+          Share your memory with others.
         </p>
-        <div className="flex items-center mb-6">
+        {/* <div className="flex items-center mb-6">
           <input
             type="text"
             value={shareUrl}
@@ -71,7 +71,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, shareUrl, titl
           <p className="text-green-600 dark:text-green-400 text-sm mb-4">
             Link copied to clipboard!
           </p>
-        )}
+        )} */}
         <div className="flex justify-between">
           <Button
             variant="outline"
